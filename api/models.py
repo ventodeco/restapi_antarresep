@@ -11,7 +11,7 @@ class Profil(models.Model):
       	('Kota', 'Kota'),
     )
 	user = models.OneToOneField(User, null=True, on_delete=models.CASCADE)
-	gambar = models.ImageField(null=True)
+	# gambar = models.ImageField(null=True)
 	firstname = models.CharField(max_length=255, null=False)	
 	lastname = models.CharField(max_length=255, null=True)
 	jenisKelamin = models.CharField(max_length=255, null=False, choices=JENIS_KELAMIN)
@@ -42,7 +42,7 @@ class Bahan(models.Model):
 
 class Resep(models.Model):
 	nama = models.CharField(max_length=255, null=False)
-	gambar = models.ImageField(null=True)
+	# gambar = models.ImageField(null=True)
 	harga = models.FloatField(max_length=255, null=False)
 	deskripsi = models.TextField(max_length=255, null=False)
 	kategori = models.ManyToManyField(Kategori)

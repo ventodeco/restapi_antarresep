@@ -14,25 +14,26 @@ from .models import Resep
 def apiOverview(request):
 	api_urls = {
 		'List Resep' : '/resep/',
-		'Detail Resep' : '/resep/<int:pk>/',
 		'Create Resep' : '/resep/',
-		'Update Resep' : '/resepUpdate/<int:pk>/',
-		'Delete Resep' : '/resepDelete/<int:pk>/'
+		'Detail Resep' : '/resep/<int:pk>/',
+		'Update Resep' : '/resep/<int:pk>/',
+		'Delete Resep' : '/resep/<int:pk>/'
 	}
 	return Response(api_urls)
 
-@api_view(['GET'])
+@api_view(['GET', 'POST'])
 def resepList(request):
-	reseps = Resep.objects.all()
-	serializer = ResepSerializers(reseps, many=True)
-	return Response(serializer.data)
+	if request.method == 'GET':
+		reseps = Resep.objects.all()
+		serializer = ResepSerializers(reseps, many=True)
+		return Response(serializer.data)
 
-@api_view(['POST'])
-def resepCreate(request):
-	serializer = ResepSerializers(data=request.data)
-	if serializer.is_valid():
-		serializer.save()
-	return Response(serializer.data)
+	elif request.method == 'POST':
+		serializer = ResepSerializers(data=request.data)
+		if serializer.is_valid():
+			serializer.save()
+			return Response(serializer.data, status=status.HTTP_201_CREATED)
+		return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 @api_view(['GET', 'PUT', 'DELETE'])
 def resep(request, pk):
@@ -41,13 +42,7 @@ def resep(request, pk):
 	except Resep.DoesNotExist:
 		return Response(status=status.HTTP_404_NOT_FOUND)
 
-	if request.method == 'POST':
-		serializer = ResepSerializers(data=request)
-		if serializer.is_valid():
-			serializer.save()
-		return Response(serializer.data)
-
-	elif request.method == 'GET':
+	if request.method == 'GET':
 		serializer = ResepSerializers(resep)
 		return Response(serializer.data)
 
