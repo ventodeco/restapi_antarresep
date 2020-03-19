@@ -11,6 +11,7 @@ class Profil(models.Model):
       	('Kota', 'Kota'),
     )
 	user = models.OneToOneField(User, null=True, on_delete=models.CASCADE)
+	gambar = models.ImageField(null=True)
 	firstname = models.CharField(max_length=255, null=False)	
 	lastname = models.CharField(max_length=255, null=True)
 	jenisKelamin = models.CharField(max_length=255, null=False, choices=JENIS_KELAMIN)
@@ -21,11 +22,13 @@ class Profil(models.Model):
 	kabkot = models.CharField(max_length=255, null=True, choices=KABKOT)
 	kota = models.CharField(max_length=255, null=True)
 	prov = models.CharField(max_length=255, null=True)
+
 	def __str__(self):
 		return self.firstname 
 
 class Kategori(models.Model):
 	name = models.CharField(max_length=255, null=False)
+	
 	def __str__(self):
 		return self.name
  
@@ -34,12 +37,19 @@ class Bahan(models.Model):
 	harga = models.FloatField(max_length=255, null=False)
 	kuantitas = models.FloatField(max_length=255, null=False)
 
+	def __str__(self):
+		return self.nama
+
 class Resep(models.Model):
 	nama = models.CharField(max_length=255, null=False)
+	gambar = models.ImageField(null=True)
 	harga = models.FloatField(max_length=255, null=False)
 	deskripsi = models.TextField(max_length=255, null=False)
 	kategori = models.ManyToManyField(Kategori)
 	bahan = models.ManyToManyField(Bahan)
+
+	def __str__(self):
+		return self.nama
  
 class Order(models.Model):
 	STATUS = (
@@ -56,3 +66,6 @@ class Order(models.Model):
 	def __str__(self):
 		return self.resep.name
 
+
+# class Rating(models.Model):
+	

@@ -38,7 +38,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 
-    #'rest_framework',
+    'rest_framework',
     'api.apps.ApiConfig',
 ]
 
@@ -78,12 +78,15 @@ WSGI_APPLICATION = 'restapi_antarresep.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'neon',
-        'USER' : 'root',
-        'PASSWORD': '',
-        'HOST' : '/opt/lampp/var/mysql/mysql.sock',
-        'PORT' : '3306',
+    # aku pake sqlite dulu, kalo setting db, di komen aja
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        # 'ENGINE': 'django.db.backends.mysql',
+        # 'NAME': 'neon',
+        # 'USER' : 'root',
+        # 'PASSWORD': '',
+        # 'HOST' : '/opt/lampp/var/mysql/mysql.sock',
+        # 'PORT' : '3306',
     }
 }
 
