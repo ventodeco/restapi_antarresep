@@ -10,7 +10,7 @@ class Profil(models.Model):
     	('Kabupaten', 'Kabupaten'),
       	('Kota', 'Kota'),
     )
-	user = models.OneToOneField(User, null=True, on_delete=models.CASCADE)
+	user = models.OneToOneField(User, null=False, on_delete=models.CASCADE)
 	# gambar = models.ImageField(null=True)
 	firstname = models.CharField(max_length=255, null=False)	
 	lastname = models.CharField(max_length=255, null=True)
@@ -60,12 +60,23 @@ class Order(models.Model):
 	)
 	user = models.ForeignKey(Profil,null=True, on_delete=models.SET_NULL)
 	resep = models.ForeignKey(Resep,null=True, on_delete=models.SET_NULL)
-	status = models.CharField(max_length=255, null=True, choices=STATUS)
-	note = models.CharField(max_length=255, null=True)
+	status = models.CharField(max_length=255, null=True, choices=STATUS, default='Pending')
+	# kecamatan = models.CharField(null=True, max_length=255, default=Profil.kecamatan)
+	note = models.TextField(null=True)
 
 	def __str__(self):
 		return self.resep.name
 
 
-# class Rating(models.Model):
-	
+class Rating(models.Model):
+	RATE = (
+		('1', '1'),
+		('2', '2'),
+		('3', '3'),
+		('4', '4'),
+		('5', '5'),
+	)
+	user = models.ForeignKey(User, null=False, on_delete=models.CASCADE)
+	resep = models.ForeignKey(Resep, null=False, on_delete=models.CASCADE)
+	nilai = models.CharField(null=True, max_length=5, choices=RATE)
+	totalnilai = models.CharField(null=True, max_length=5)
